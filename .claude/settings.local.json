@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(printf '%PDF-1.4\\\\n1:*)",
+      "Bash(\"C:/Users/Trisha Roy/Documents/Claude/Projects/Portfolio/public/Trisha_Roy_CV.pdf\")"
+    ]
+  }
+}
