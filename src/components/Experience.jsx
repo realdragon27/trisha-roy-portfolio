@@ -1,6 +1,11 @@
 import { motion } from 'framer-motion'
 import { experiences } from '../data/experience'
 
+const slideInLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0 },
+}
+
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
@@ -32,11 +37,11 @@ export default function Experience() {
             {experiences.map((exp, i) => (
               <motion.div
                 key={exp.id}
-                variants={fadeUp}
+                variants={slideInLeft}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
                 className={`relative flex gap-6 ${
                   i % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'
                 } flex-col`}
@@ -46,13 +51,17 @@ export default function Experience() {
 
                 {/* Card */}
                 <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
-                  <div className="bg-navy border border-navy-lighter rounded-xl p-6 hover:border-teal/30 transition-colors">
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    className="bg-navy border border-navy-lighter rounded-xl p-6 hover:border-teal/30 transition-colors cursor-default"
+                  >
                     <div className="flex items-start justify-between gap-2 mb-1 flex-wrap">
                       <h3 className="text-slate-light font-bold text-lg">{exp.company}</h3>
                       <span className="text-teal text-sm font-medium whitespace-nowrap shrink-0">{exp.period}</span>
                     </div>
                     <p className="text-teal/80 text-sm font-medium mb-4">{exp.role}</p>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 mb-4">
                       {exp.bullets.map((b, j) => (
                         <li key={j} className="flex gap-2 text-slate-muted text-sm">
                           <span className="text-teal shrink-0 mt-0.5">▹</span>
@@ -60,7 +69,13 @@ export default function Experience() {
                         </li>
                       ))}
                     </ul>
-                  </div>
+
+                    {/* Key Impact box */}
+                    <div className="border-l-2 border-teal bg-teal/5 rounded-r-lg pl-4 pr-3 py-3">
+                      <p className="text-teal text-xs font-semibold uppercase tracking-wide mb-1">Key Impact</p>
+                      <p className="text-slate-muted text-sm leading-relaxed">{exp.keyImpact}</p>
+                    </div>
+                  </motion.div>
                 </div>
 
                 {/* Spacer for opposite side */}

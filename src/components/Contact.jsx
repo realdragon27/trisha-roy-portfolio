@@ -16,8 +16,8 @@ const contactInfo = [
       </svg>
     ),
     label: 'Email',
-    value: 'trishachitradip@gmail.com',
-    href: 'mailto:trishachitradip@gmail.com',
+    value: 'trisharoy1927@gmail.com',
+    href: 'mailto:trisharoy1927@gmail.com',
   },
   {
     icon: (
@@ -26,7 +26,7 @@ const contactInfo = [
       </svg>
     ),
     label: 'Location',
-    value: 'Southampton, UK',
+    value: 'United Kingdom',
     href: null,
   },
   {
@@ -36,14 +36,14 @@ const contactInfo = [
       </svg>
     ),
     label: 'LinkedIn',
-    value: 'Add your LinkedIn URL',
-    href: 'https://linkedin.com',
+    value: 'linkedin.com/in/trisharoy97',
+    href: 'https://www.linkedin.com/in/trisharoy97',
   },
 ]
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState(null) // 'loading' | 'success' | 'error'
+  const [status, setStatus] = useState(null)
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
@@ -103,7 +103,7 @@ export default function Contact() {
                   <div>
                     <p className="text-slate-muted text-xs">{item.label}</p>
                     {item.href ? (
-                      <a href={item.href} className="text-slate-light text-sm hover:text-teal transition-colors">
+                      <a href={item.href} target={item.label === 'LinkedIn' ? '_blank' : undefined} rel="noopener noreferrer" className="text-slate-light text-sm hover:text-teal transition-colors">
                         {item.value}
                       </a>
                     ) : (

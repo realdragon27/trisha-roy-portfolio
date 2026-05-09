@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { label: 'Experience', href: '#experience' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Beyond Work', href: '#beyond-work' },
   { label: 'Education', href: '#education' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -31,7 +32,11 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#hero" className="text-xl font-bold text-teal tracking-wide">
+        <a
+          href="#hero"
+          className="font-bold text-teal tracking-wide leading-none"
+          style={{ fontSize: '1.9rem' }}
+        >
           Trisha Roy
         </a>
 
@@ -47,7 +52,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="/Trisha_Roy_CV.pdf"
+            href="/CV_Trisha_Roy.pdf"
             download
             className="ml-2 px-4 py-2 border border-teal text-teal rounded hover:bg-teal hover:text-navy transition-all text-sm font-semibold"
           >
@@ -88,7 +93,7 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href="/Trisha_Roy_CV.pdf"
+                href="/CV_Trisha_Roy.pdf"
                 download
                 className="px-4 py-2 border border-teal text-teal rounded text-center hover:bg-teal hover:text-navy transition-all font-semibold"
               >

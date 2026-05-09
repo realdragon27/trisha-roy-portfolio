@@ -1,26 +1,32 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const SLIDES = Array.from({ length: 5 }, (_, i) => ({ id: i, label: 'Dashboard coming soon' }))
+const SLIDES = [
+  { id: 0, src: '/carousel/carousel-1.png', title: 'Verra Mobility — Open Tickets Dashboard' },
+  { id: 1, src: '/carousel/carousel-2.png', title: 'Verra Mobility — Calibration Overview' },
+  { id: 2, src: '/carousel/carousel-3.png', title: 'NHS Cancer Care — Length of Stay Analysis' },
+  { id: 3, src: '/carousel/carousel-4.png', title: 'KPI Scorecard & Process Optimisation' },
+  { id: 4, src: '/carousel/carousel-5.png', title: 'Video Game Sales — Trend & Forecast' },
+  { id: 5, src: '/carousel/carousel-6.png', title: 'Video Game Sales — Executive Overview' },
+  { id: 6, src: '/carousel/carousel-7.png', title: 'SLA & Workflow Automation Pipeline' },
+]
+
+const variants = {
+  enter: (dir) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (dir) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
+}
 
 export default function CarouselPlaceholder() {
   const [current, setCurrent] = useState(0)
-  const [zoomed, setZoomed] = useState(false)
   const [direction, setDirection] = useState(1)
+  const [zoomed, setZoomed] = useState(false)
 
-  const goTo = (index, dir) => {
-    setDirection(dir)
-    setCurrent(index)
-  }
-
+  const goTo = (index, dir) => { setDirection(dir); setCurrent(index) }
   const prev = () => goTo((current - 1 + SLIDES.length) % SLIDES.length, -1)
   const next = () => goTo((current + 1) % SLIDES.length, 1)
 
-  const variants = {
-    enter: (dir) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (dir) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
-  }
+  const slide = SLIDES[current]
 
   return (
     <>
@@ -35,38 +41,46 @@ export default function CarouselPlaceholder() {
             animate="center"
             exit="exit"
             transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="absolute inset-0 flex flex-col items-center justify-center cursor-zoom-in"
+            className="absolute inset-0 cursor-zoom-in"
             onClick={() => setZoomed(true)}
           >
-            {/* Placeholder graphic */}
-            <div className="w-16 h-16 rounded-full border-2 border-teal/30 flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-teal/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
+            <img
+              src={slide.src}
+              alt={slide.title}
+              className="w-full h-full object-cover"
+            />
+            {/* Bottom gradient overlay */}
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+            {/* Caption row */}
+            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between px-4 pb-3 pointer-events-none">
+              <span className="text-white text-sm font-semibold leading-tight drop-shadow max-w-[60%]">
+                {slide.title}
+              </span>
+              <span className="text-white/70 text-[10px] italic leading-tight text-right max-w-[38%]">
+                *Illustrative data only — not actual company figures
+              </span>
             </div>
-            <p className="text-slate-muted text-sm font-medium">Dashboard coming soon</p>
-            <p className="text-slate-muted/50 text-xs mt-1">Click to zoom</p>
-            <p className="text-teal/40 text-xs mt-3">{current + 1} / {SLIDES.length}</p>
           </motion.div>
         </AnimatePresence>
 
-        {/* Prev / Next buttons */}
+        {/* Prev button */}
         <button
           onClick={(e) => { e.stopPropagation(); prev() }}
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-navy/70 flex items-center justify-center hover:bg-teal/20 transition-colors z-10"
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center hover:bg-teal/30 transition-colors z-10"
           aria-label="Previous slide"
         >
-          <svg className="w-4 h-4 text-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
+
+        {/* Next button */}
         <button
           onClick={(e) => { e.stopPropagation(); next() }}
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-navy/70 flex items-center justify-center hover:bg-teal/20 transition-colors z-10"
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center hover:bg-teal/30 transition-colors z-10"
           aria-label="Next slide"
         >
-          <svg className="w-4 h-4 text-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -79,9 +93,7 @@ export default function CarouselPlaceholder() {
             key={i}
             data-testid="carousel-dot"
             onClick={() => goTo(i, i > current ? 1 : -1)}
-            className={`h-2 rounded-full transition-all ${
-              i === current ? 'bg-teal w-4' : 'bg-slate-muted/40 w-2'
-            }`}
+            className={`h-2 rounded-full transition-all ${i === current ? 'bg-teal w-4' : 'bg-slate-muted/40 w-2'}`}
             aria-label={`Go to slide ${i + 1}`}
           />
         ))}
@@ -94,25 +106,28 @@ export default function CarouselPlaceholder() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center cursor-zoom-out"
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center cursor-zoom-out p-4"
             onClick={() => setZoomed(false)}
           >
-            <motion.div
-              initial={{ scale: 0.8 }}
+            <motion.img
+              src={slide.src}
+              alt={slide.title}
+              initial={{ scale: 0.85 }}
               animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              className="w-full max-w-3xl mx-4 aspect-video bg-navy-light rounded-xl flex flex-col items-center justify-center border border-teal/20"
+              exit={{ scale: 0.85 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+              className="max-w-full max-h-full rounded-xl shadow-2xl object-contain"
               onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={() => setZoomed(false)}
+              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+              aria-label="Close"
             >
-              <p className="text-slate-muted text-lg font-medium">Dashboard coming soon</p>
-              <p className="text-slate-muted/50 text-sm mt-2">Slide {current + 1} of {SLIDES.length}</p>
-              <button
-                onClick={() => setZoomed(false)}
-                className="mt-6 px-4 py-2 border border-teal text-teal rounded hover:bg-teal hover:text-navy transition-all text-sm"
-              >
-                Close
-              </button>
-            </motion.div>
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,5 +1,20 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import VerraMobilityDashboard from './dashboards/VerraMobilityDashboard'
+import NHSDashboard from './dashboards/NHSDashboard'
+import VideoGameDashboard from './dashboards/VideoGameDashboard'
+import PowerAutomateDashboard from './dashboards/PowerAutomateDashboard'
+import KPIScorecardDashboard from './dashboards/KPIScorecardDashboard'
+import CRMMigrationDashboard from './dashboards/CRMMigrationDashboard'
+
+const DASHBOARD_MAP = {
+  1: VerraMobilityDashboard,   // Operations Performance Dashboard — Verra Mobility
+  2: NHSDashboard,             // Cancer Referral Triage Dashboard — NHS Southampton
+  3: PowerAutomateDashboard,   // SLA & Workflow Automation — Verra Mobility
+  4: CRMMigrationDashboard,    // Legacy CRM to Salesforce Migration — HPE
+  5: KPIScorecardDashboard,    // KPI Scorecard & Process Optimisation — HPE
+  6: VideoGameDashboard,       // Video Game Sales Analysis (future project entry)
+}
 
 export default function ProjectModal({ project, onClose }) {
   useEffect(() => {
@@ -7,6 +22,8 @@ export default function ProjectModal({ project, onClose }) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
+
+  const DashboardComponent = DASHBOARD_MAP[project.id] ?? null
 
   return (
     <AnimatePresence>
@@ -22,7 +39,7 @@ export default function ProjectModal({ project, onClose }) {
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-          className="bg-navy-light border border-navy-lighter rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+          className="bg-navy-light border border-navy-lighter rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -44,16 +61,22 @@ export default function ProjectModal({ project, onClose }) {
           </div>
 
           <div className="p-6 space-y-6">
-            {/* Screenshot placeholder */}
-            <div className="w-full aspect-video bg-navy rounded-xl border border-navy-lighter flex items-center justify-center">
-              <div className="text-center text-slate-muted/50">
-                <svg className="w-12 h-12 mx-auto mb-2 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <p className="text-sm">Screenshot coming soon</p>
+            {/* Dashboard or screenshot placeholder */}
+            {DashboardComponent ? (
+              <div className="w-full rounded-xl overflow-hidden border border-navy-lighter">
+                <DashboardComponent />
               </div>
-            </div>
+            ) : (
+              <div className="w-full aspect-video bg-navy rounded-xl border border-navy-lighter flex items-center justify-center">
+                <div className="text-center text-slate-muted/50">
+                  <svg className="w-12 h-12 mx-auto mb-2 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <p className="text-sm">Screenshot coming soon</p>
+                </div>
+              </div>
+            )}
 
             {/* Description */}
             <p className="text-slate-muted leading-relaxed">{project.description}</p>

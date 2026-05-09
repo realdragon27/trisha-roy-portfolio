@@ -37,24 +37,42 @@ export default function Projects() {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
+              whileHover={{ scale: 1.03 }}
               onClick={() => setSelected(project)}
-              className="bg-navy border border-navy-lighter rounded-xl p-6 cursor-pointer hover:border-teal/40 hover:-translate-y-1 transition-all group"
+              className="bg-navy border border-navy-lighter rounded-xl p-6 cursor-pointer hover:border-teal/40 transition-all group"
             >
               {/* Top row */}
-              <div className="flex items-start justify-between mb-4 gap-2">
+              <div className="flex items-start justify-between mb-3 gap-2">
                 <div>
                   <span className="text-teal text-xs font-semibold tracking-widest uppercase">{project.type}</span>
                   <h3 className="text-slate-light font-bold text-lg mt-1 group-hover:text-teal transition-colors">
                     {project.title}
                   </h3>
                 </div>
-                <span className="shrink-0 px-2 py-1 bg-teal/10 text-teal text-xs rounded-full border border-teal/20 whitespace-nowrap">
-                  {project.company}
-                </span>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <span className={`px-2 py-1 text-xs rounded-full border whitespace-nowrap ${project.isPersonal ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-teal/10 text-teal border-teal/20'}`}>
+                    {project.company}
+                  </span>
+                  {project.category && (
+                    <span className="px-2 py-0.5 bg-navy-light border border-navy-lighter text-slate-muted text-xs rounded-full whitespace-nowrap">
+                      {project.category}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Description snippet */}
               <p className="text-slate-muted text-sm mb-4 line-clamp-2">{project.description}</p>
+
+              {/* Metric badges */}
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                {project.metrics.map((m, j) => (
+                  <div key={j} className="bg-navy-light border border-teal/15 rounded-lg px-2 py-2 text-center">
+                    <div className="text-teal font-bold text-sm leading-none">{m.value}</div>
+                    <div className="text-slate-muted text-xs mt-1 leading-tight">{m.label}</div>
+                  </div>
+                ))}
+              </div>
 
               {/* Tools */}
               <div className="flex flex-wrap gap-2 mb-4">
