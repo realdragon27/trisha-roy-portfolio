@@ -96,12 +96,9 @@ export default function Hero() {
             </a>
 
             {/* Experience badge */}
-            <div className="relative inline-flex items-center justify-center">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-teal/20 animate-ping opacity-60" />
-              <span className="relative px-3 py-1 rounded-full bg-teal/10 border border-teal/30 text-teal text-sm font-semibold whitespace-nowrap">
-                5+ Years Experience
-              </span>
-            </div>
+            <span className="px-3 py-1 rounded-full bg-teal/10 border border-teal/30 text-teal text-sm font-semibold whitespace-nowrap">
+              5+ Years Experience
+            </span>
           </motion.div>
         </div>
 

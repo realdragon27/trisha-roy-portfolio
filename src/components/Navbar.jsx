@@ -11,6 +11,8 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
+const NAVBAR_HEIGHT = 72
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -20,6 +22,16 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const handleNavClick = (e, href) => {
+    e.preventDefault()
+    setMenuOpen(false)
+    const id = href.replace('#', '')
+    const el = document.getElementById(id)
+    if (!el) return
+    const top = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT
+    window.scrollTo({ top, behavior: 'smooth' })
+  }
 
   return (
     <motion.nav
@@ -46,6 +58,7 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               className="text-slate-muted hover:text-teal transition-colors text-sm font-medium"
             >
               {link.label}
@@ -86,7 +99,7 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className="text-slate-muted hover:text-teal transition-colors font-medium"
                 >
                   {link.label}

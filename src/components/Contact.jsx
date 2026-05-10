@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import emailjs from '@emailjs/browser'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -42,27 +40,6 @@ const contactInfo = [
 ]
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState(null)
-
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus('loading')
-    try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        { from_name: form.name, from_email: form.email, message: form.message },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-      )
-      setStatus('success')
-      setForm({ name: '', email: '', message: '' })
-    } catch {
-      setStatus('error')
-    }
-  }
 
   return (
     <section id="contact" className="py-24 px-6 bg-navy-light">
@@ -122,16 +99,16 @@ export default function Contact() {
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            onSubmit={handleSubmit}
+            action="https://formspree.io/f/mkoypzlg"
+            method="POST"
             className="space-y-4"
           >
+            <input type="hidden" name="_subject" value="Portfolio Enquiry — Trisha Roy" />
             <input
               type="text"
               name="name"
               placeholder="Your Name"
               required
-              value={form.name}
-              onChange={handleChange}
               className="w-full bg-navy border border-navy-lighter rounded-lg px-4 py-3 text-slate-light placeholder-slate-muted/50 focus:outline-none focus:border-teal transition-colors"
             />
             <input
@@ -139,8 +116,6 @@ export default function Contact() {
               name="email"
               placeholder="Your Email"
               required
-              value={form.email}
-              onChange={handleChange}
               className="w-full bg-navy border border-navy-lighter rounded-lg px-4 py-3 text-slate-light placeholder-slate-muted/50 focus:outline-none focus:border-teal transition-colors"
             />
             <textarea
@@ -148,23 +123,20 @@ export default function Contact() {
               placeholder="Your Message"
               required
               rows={5}
-              value={form.message}
-              onChange={handleChange}
               className="w-full bg-navy border border-navy-lighter rounded-lg px-4 py-3 text-slate-light placeholder-slate-muted/50 focus:outline-none focus:border-teal transition-colors resize-none"
             />
             <button
               type="submit"
-              disabled={status === 'loading'}
-              className="w-full py-3 bg-teal text-navy font-semibold rounded-lg hover:bg-teal-dark transition-colors disabled:opacity-60"
+              className="w-full py-3 bg-teal text-navy font-semibold rounded-lg hover:bg-teal-dark transition-colors"
             >
-              {status === 'loading' ? 'Sending…' : 'Send Message'}
+              Send Message
             </button>
-            {status === 'success' && (
-              <p className="text-teal text-sm text-center">Message sent! I'll be in touch soon.</p>
-            )}
-            {status === 'error' && (
-              <p className="text-red-400 text-sm text-center">Something went wrong. Please try emailing directly.</p>
-            )}
+            <p className="text-slate-muted/60 text-xs text-center">
+              Or email directly:{' '}
+              <a href="mailto:trisharoy1927@gmail.com" className="text-teal hover:underline">
+                trisharoy1927@gmail.com
+              </a>
+            </p>
           </motion.form>
         </div>
       </div>
