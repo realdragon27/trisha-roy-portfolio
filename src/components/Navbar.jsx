@@ -27,10 +27,13 @@ export default function Navbar() {
     e.preventDefault()
     setMenuOpen(false)
     const id = href.replace('#', '')
-    const el = document.getElementById(id)
-    if (!el) return
-    const top = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT
-    window.scrollTo({ top, behavior: 'smooth' })
+    // Defer scroll until after the mobile drawer finishes closing
+    setTimeout(() => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const top = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT
+      window.scrollTo({ top, behavior: 'smooth' })
+    }, 50)
   }
 
   return (
